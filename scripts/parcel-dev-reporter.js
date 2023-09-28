@@ -17,9 +17,13 @@ async function startNodeServer(event, logger) {
   if (reloadingProc) return;
   reloadingProc = true;
   if (event.type === 'buildSuccess') {
-    const bundles = event.bundleGraph.getBundles();
-    if (bundles.length !== 1 || bundles[0].target.name !== 'backend') {
-      return;
+    const bundle = event.bundleGraph.getBundles().find(bundle =>
+      bundle.target.name === 'backend' &&
+      bundle.getMainEntry()?.filePath.includes('dev')
+    );
+
+    if (!bundle) {
+      return
     }
 
     if (startedProc) {
@@ -42,7 +46,7 @@ async function startNodeServer(event, logger) {
       }
     }
 
-    startedProc = fork(bundles[0].filePath, {
+    startedProc = fork(bundle.filePath, {
       stdio: 'inherit'
     });
     startedProc.on('error', err => {

@@ -20,4 +20,5 @@ deploy.sh
 .idea
 
 # Secrets
-.env.production
+.env.local
+.env.*.local

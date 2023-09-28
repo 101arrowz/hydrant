@@ -13,7 +13,10 @@
       "distDir": "build"
     },
     "backend": {
-      "source": "src-server/index.ts",
+      "source": [
+        "src-server/index.ts",
+        "src-server/dev.ts"
+      ],
       "context": "node",
       "distDir": "server"
     }
@@ -22,7 +25,6 @@
     "@fastify/cors": "^8.4.0",
     "@fastify/session": "^10.5.0",
     "dotenv": "^16.3.1",
-    "dotenv-flow": "^3.3.0",
     "fastify": "^4.23.2",
     "fastify-type-provider-zod": "^1.1.9",
     "zod": "^3.22.2"
@@ -36,6 +38,7 @@
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@fastify/cookie": "^9.1.0",
+    "@fastify/static": "^6.11.2",
     "@fontsource/inter": "^4.5.12",
     "@fullcalendar/core": "^5.11.2",
     "@fullcalendar/interaction": "^5.11.2",
@@ -50,6 +53,7 @@
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.7",
     "buffer": "^6.0.3",
+    "dotenv-flow": "^3.3.0",
     "html-entities": "^2.3.3",
     "ics": "^2.41.0",
     "msgpack-lite": "^0.1.26",
@@ -64,7 +68,7 @@
   },
   "scripts": {
     "start": "run-p -r start:*",
-    "start:frontend": "parcel serve --target frontend --dist-dir build --port 3428 --no-autoinstall",
+    "start:frontend": "parcel watch --target frontend --no-autoinstall",
     "start:backend": "parcel watch --target backend --no-hmr --no-autoinstall",
     "build": "parcel build"
   },
