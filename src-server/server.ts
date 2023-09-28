@@ -1,18 +1,14 @@
 import fastify from 'fastify';
-import cors from '@fastify/cors'
-import data from './data/*';
+import addMiddleware from './middleware';
+import routes from './routes';
+import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 
-const api = fastify();
-api.register(cors)
-
-api.get('/', (req, res) => {
-  return 'Hello world!';
-})
-
-for (const file in data) {
-  api.get('/' + file, (req, res) => {
-    return data[file];
-  })
+async function createAPI() {
+  const api = fastify();
+  await addMiddleware(api);
+  await api.register(routes);
+  return api;
 }
 
-export default api;
+
+export default createAPI();
