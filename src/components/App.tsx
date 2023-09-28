@@ -51,7 +51,7 @@ function useHydrant(): {
 
   /** Fetch from the url, which is JSON of type T. */
   const fetchNoCache = async <T,>(url: string): Promise<T> => {
-    const res = await fetch(new URL(url, process.env.SITE + '/api'), { cache: "no-cache" });
+    const res = await fetch(new URL(url, process.env.SITE + '/api/'), { cache: "no-cache" });
     return res.json() as Promise<T>;
   };
 
@@ -59,8 +59,8 @@ function useHydrant(): {
     const params = new URLSearchParams(document.location.search);
     const term = params.get("t") ?? "latest";
     Promise.all([
-      fetchNoCache<TermInfo>("latestTerm.json"),
-      fetchNoCache<SemesterData>(`${term}.json`),
+      fetchNoCache<TermInfo>("data/latestTerm.json"),
+      fetchNoCache<SemesterData>(`data/${term}.json`),
     ]).then(([latestTerm, { classes, lastUpdated, termInfo }]) => {
       const classesMap = new Map(Object.entries(classes));
       const hydrantObj = new State(

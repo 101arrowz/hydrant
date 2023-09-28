@@ -69,7 +69,7 @@
   "scripts": {
     "start": "run-p -r start:*",
     "start:frontend": "parcel watch --target frontend --no-autoinstall",
-    "start:backend": "parcel watch --target backend --no-hmr --no-autoinstall",
+    "start:backend": "parcel watch --target backend --no-hmr --no-cache --no-autoinstall",
     "build": "parcel build"
   },
   "alias": {
