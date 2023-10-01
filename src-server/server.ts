@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify';
-import addMiddleware from './middleware';
 import routes from './routes';
+import middleware from './middleware';
 
 async function createAPI(api: FastifyInstance) {
-  await addMiddleware(api);
+  await api.register(middleware)
   await api.register(routes);
   return api;
 }

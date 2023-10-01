@@ -1,7 +1,6 @@
 import fastify from 'fastify';
 import createAPI from './server';
 
-
 async function main() {
   const port = +(process.env.PORT || '6873');
   const api = await createAPI(fastify());

@@ -1,13 +1,10 @@
-import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
-import session from '@fastify/session';
+import cookie from '@fastify/cookie';
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { randomUUID } from 'crypto';
-import { FastifyInstance } from 'fastify';
 import { ZodError } from 'zod';
+import makePlugin from 'fastify-plugin';
 
-
-const addMiddleware = async (api: FastifyInstance) => {
+export default makePlugin(async api => {
   api.setValidatorCompiler(validatorCompiler);
   api.setSerializerCompiler(serializerCompiler);
   api.setErrorHandler((err, req, res) => {
@@ -33,9 +30,4 @@ const addMiddleware = async (api: FastifyInstance) => {
   });
   await api.register(cors);
   await api.register(cookie);
-  await api.register(session, {
-    secret: process.env.COOKIE_SECRET ?? randomUUID()
-  });
-}
-
-export default addMiddleware;
+});

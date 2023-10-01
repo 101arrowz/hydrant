@@ -1,5 +1,5 @@
 import dotenv from "dotenv-flow";
-dotenv.config()
+dotenv.config();
 
 import fastify from "fastify";
 import staticFiles from "@fastify/static";
