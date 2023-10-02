@@ -2,7 +2,7 @@ import { FastifyPluginAsync, FastifyReply, FastifyRequest, onRequestAsyncHookHan
 import { ZodError, z } from "zod";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import makePlugin from "fastify-plugin";
-import { LOGIN_COOKIE_NAME, loginCookieInfo } from "@shared/auth";
+import { LOGIN_COOKIE_NAME, loginCookieInfo } from "~/src-shared/auth";
 
 class AuthError extends Error {
   readonly statusCode = 401;
@@ -77,14 +77,14 @@ declare module "fastify" {
 }
 
 // Wrap in fastify-plugin to enable decorators
-export const fireroadAuth = makePlugin(async (instance, options: { required?: boolean; verify?: boolean; }) => {
+export const fireroadAuth = makePlugin(async (instance, options: { optional?: boolean; verify?: boolean; }) => {
   instance.decorateRequest('fireroadToken', null);
   instance.addHook('preHandler', async (req, res) => {
     const token = fireroadJwtAuthHeader.parse(req.headers.authorization) ||
       fireroadJwtCookie.parse(req.cookies.fireroad_token) ||
       null;
 
-    if (!token && options.required) {
+    if (!token && !options.optional) {
       throw new AuthError('no fireroad token provided');
     }
 
@@ -103,10 +103,6 @@ export const fireroadAuth = makePlugin(async (instance, options: { required?: bo
     req.fireroadToken = token;
   });
 });
-
-async (req: FastifyRequest, res: FastifyReply) => {
-  
-}
 
 const safeRedirect = z.custom<string>(data =>
   typeof data === 'string' &&
@@ -163,7 +159,8 @@ const authPlugin: FastifyPluginAsync = async auth => {
       res.setCookie('fireroad_token', authResult.access_info.access_token, {
         secure: true,
         httpOnly: true,
-        sameSite: true,
+        sameSite: 'lax',
+        path: '/',
         expires: jwt.payload.expires
         // Doesn't need to be signed - JWTs have a signature built-in
       });
@@ -171,7 +168,8 @@ const authPlugin: FastifyPluginAsync = async auth => {
         secure: true,
         // This info is specifically for the client to read
         httpOnly: false,
-        sameSite: true,
+        sameSite: 'lax',
+        path: '/',
         expires: jwt.payload.expires
       });
       res.redirect(req.query.next ?? '/');
