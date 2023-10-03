@@ -14,13 +14,6 @@ async function main() {
     root: join(__dirname, '..', 'build')
   });
 
-  // TEMPORARY: will be replaced by proper handling soon
-  app.register(staticFiles, {
-    root: join(__dirname, 'data'),
-    prefix: '/api/data',
-    decorateReply: false
-  });
-
   await app.register(createAPI, {
     prefix: '/api'
   });

@@ -1,11 +1,11 @@
 // TODO: add notify_build.py equivalent here
 
 import { FastifyPluginAsync } from "fastify";
-import { getCatalogPages } from "../scrapers/catalog";
+import { reloadCatalog } from "../scrapers/catalog";
 
 const adminPlugin: FastifyPluginAsync = async admin => {
   admin.get('/catalog', async (req, res) => {
-    return getCatalogPages();
+    return reloadCatalog();
   });
 }
 

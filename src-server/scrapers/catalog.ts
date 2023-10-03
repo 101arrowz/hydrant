@@ -1,10 +1,8 @@
-import { ElementType } from "htmlparser2";
-import { findNodes, getHtml, querySelector, querySelectorAll } from "./html";
-import { Element } from "domhandler";
+import { getHtml, querySelector, querySelectorAll } from "./html";
 
 const CATALOG_HOME = "http://student.mit.edu/catalog/index.cgi";
 
-export async function getCatalogPages() {
+async function getCatalogPages() {
   const home = await getHtml(CATALOG_HOME);
 
   const baseLinks = querySelectorAll(home, "td[valign=top][align=left] > ul a[href]")
@@ -18,4 +16,18 @@ export async function getCatalogPages() {
   }))
 
   return allLinks.flat();
+}
+
+async function findCourses(page: URL) {
+  const doc = await getHtml(page);
+  const courses = querySelector(doc, "table[width=\"100%\"][border=\"0\"] td");
+  // TODO: parse
+  return [];
+}
+
+export async function reloadCatalog() {
+  const catalogPages = await getCatalogPages();
+  const allCourses = (await Promise.all(catalogPages.map(findCourses))).flat();
+  // TODO: save to disk
+  console.log(allCourses);
 }
