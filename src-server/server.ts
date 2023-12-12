@@ -1,18 +1,12 @@
-import fastify from 'fastify';
-import cors from '@fastify/cors'
-import data from './data/*';
+import { FastifyInstance } from 'fastify';
+import routes from './routes';
+import middleware from './middleware';
 
-const api = fastify();
-api.register(cors)
-
-api.get('/', (req, res) => {
-  return 'Hello world!';
-})
-
-for (const file in data) {
-  api.get('/' + file, (req, res) => {
-    return data[file];
-  })
+async function createAPI(api: FastifyInstance) {
+  await api.register(middleware)
+  await api.register(routes);
+  return api;
 }
 
-export default api;
+
+export default createAPI;

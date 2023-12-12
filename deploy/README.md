@@ -40,3 +40,4 @@ The backend runs on an XVM instance at `hydrant.xvm.mit.edu`. It is deployed sep
 After the backend is build with `npm run build`, we start the server on the XVM instance with [PM2](https://pm2.keymetrics.io/) using the `pm2.config.js` file located in this folder.
 
 *NB: This documentation is incomplete! It will be updated after the migration to a Node.js backend is finished and we finalize the deployment process.*
+- TODO: how to use secrets on backend? `dotenv`?

@@ -20,7 +20,7 @@ There's the frontend, which is the website and the interface. Then there's the b
 
 To update the frontend (source code in the `src/` directory), you can run `npm start` and open the link that shows up in your terminal window. As you change the source code, the site should update in real-time, but you can reload if you want to make sure you're using the latest version.
 
-To work on the backend (located in `src-server/`), it's a similar process. If you run `npm start`, you can edit any of the files in `src-server/` to reload the Node.js server automatically with your changes. If you just want to tinker with the API without touching the frontend code, you can alternatively run `npm run start:frontend`.
+To work on the backend (located in `src-server/`), it's a similar process. If you run `npm start`, you can edit any of the files in `src-server/` to reload the Node.js server automatically with your changes.
 
 *NB: Hydrant is currently in the process of moving to a Node.js-only backend! For now, you'll need to do the following steps as well.*
  
@@ -40,9 +40,7 @@ Finally, run the normal update process and commit the results to the repo.
 
 ### Updating the server
 
-The server's frontend updates based on the `deploy` branch on GitHub, so any changes pushed there will become live.
-
-The server's backend is updated by an automatic deploy to an XVM instance via the same `deploy` branch.
+The server's frontend and backend updates are based on the `deploy` branch on GitHub, so any changes pushed there will become live.
 
 See `deploy/README.md` for more info.
 
